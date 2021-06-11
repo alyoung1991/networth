@@ -6,10 +6,10 @@ import vanguard from '../apis/vanguard';
 class App extends React.Component {
     state = { 
         bitcoin: null, 
-        ira: 22293.42, 
-        brokerage: 101381.27,
-        savings: (100055.38 + 10311.57).toFixed(2), 
-        cash: 68507.08
+        ira: null, 
+        brokerage: null,
+        savings: (100096.41 + 10338.66).toFixed(2), 
+        cash: 63495.94
     };
 
     async componentDidMount(props){
@@ -21,30 +21,28 @@ class App extends React.Component {
         from.toISOString().substring(0, 10);
 
         // Vanguard Index fund getters
-        // const VTSAX = await vanguard.get('/VTSAX.US', {
-        //     params: {
-        //         from: from
-        //     }
-        // });
+        const VTSAX = await vanguard.get('/VTSAX.US', {
+            params: {
+                from: from
+            }
+        });
 
-        // const VTIAX = await vanguard.get('/VTIAX.US', {
-        //     params: {
-        //         from: '2021-05-26',
-        //         to: '2021-05-27'
-        //     }
-        // });
+        const VTIAX = await vanguard.get('/VTIAX.US', {
+            params: {
+                from: from
+            }
+        });
 
-        // const VBTLX = await vanguard.get('/VBTLX.US', {
-        //     params: {
-        //         from: '2021-05-26',
-        //         to: '2021-05-27'
-        //     }
-        // });
+        const VBTLX = await vanguard.get('/VBTLX.US', {
+            params: {
+                from: from
+            }
+        });
 
         this.setState({
-            bitcoin: ((bitcoinPrice.data.bpi.USD.rate_float) * (0.1167934)).toFixed(2)
-            // ira: (VTSAX.data[0].close * 210.076).toFixed(2),
-            // brokerage: (VTSAX.data[0].close * 667.097 + VTIAX.data[0].close * 690.215 + VBTLX.data[0].close * 529.819).toFixed(2)
+            bitcoin: ((bitcoinPrice.data.bpi.USD.rate_float) * (0.1167934)).toFixed(2),
+            ira: (VTSAX.data[0].close * 210.076).toFixed(2),
+            brokerage: (VTSAX.data[0].close * 667.097 + VTIAX.data[0].close * 690.215 + VBTLX.data[0].close * 529.819).toFixed(2)
         });
     }
 
